@@ -1,4 +1,3 @@
-# csvreader
 ## Build instruction
 ### Linux
 - Open folder named csvreader in terminal
@@ -7,7 +6,7 @@
 - make
 
 ### Windows
-!Required MinGW toolchain with posix thread model
+Required MinGW toolchain with posix thread model!
 - Open folder named csvreader in terinal
 - Run cmake -G "MinGW Makefiles" -B ./build
 - cd build
