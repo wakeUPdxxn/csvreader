@@ -91,8 +91,8 @@ void Reader::cellAnalyzer(const WhereToDo &cellPos) {
     std::string::iterator operationPos;
 
     try { 
-        operationPos = findOperation(currentCell); 
-        currentOperation = *operationPos;          //Если функция поиска и проверки операции не выборосила исключение,то заносим символ текущей операции
+    	operationPos = findOperation(currentCell); 
+        currentOperation = *operationPos;  //Если функция поиска и проверки операции не выборосила исключение,то заносим символ текущей операции
     }
     catch(WrongOperator x) {
         mt.lock();
@@ -113,9 +113,8 @@ void Reader::cellAnalyzer(const WhereToDo &cellPos) {
         exit(EXIT_FAILURE);
     }
 
-    ARG1 = currentCell.substr(std::distance(currentCell.begin(), currentCell.begin()+1), std::distance(currentCell.begin(),operationPos-1)); //Формируем первый аргумент из ячейки с операцией
+    ARG1 = currentCell.substr(1, std::distance(currentCell.begin(),operationPos-1)); //Формируем первый аргумент из ячейки с операцией
     argumentExceptionHandler(ARG1, row, column); //Вызываем функцию для захвата исключений при проверке аргумента, если таковых не было, последняя вызовет сеттер значения для аргумента 
-
     ARG2 = currentCell.substr(std::distance(currentCell.begin(), operationPos + 1), std::distance(operationPos + 1, currentCell.end()));
     argumentExceptionHandler(ARG2, row, column); //Аналогично для второго аргумента
 
@@ -124,7 +123,7 @@ void Reader::cellAnalyzer(const WhereToDo &cellPos) {
         table[row].at(column) = std::to_string(makeResult(currentOperation, stoi(ARG1), stoi(ARG2))); //Заменяем значение в ячейке результатом операции
     }
     catch (DevisionByZeroException x) {
-        mt.unlock();
+        mt.lock();
         std::cerr << "Division by zero is not allowed" << "\n";
         mt.unlock();
         exit(EXIT_FAILURE);
